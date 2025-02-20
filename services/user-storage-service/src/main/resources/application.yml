@@ -1,0 +1,37 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: user-storage-service
+    
+  datasource:
+    url: jdbc:postgresql://postgres:5432/userdb
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        
+  kafka:
+    consumer:
+      bootstrap-servers: kafka:9092
+      group-id: user-storage-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.type.mapping: "userListRequest:com.example.userstorageservice.model.UserListRequest,userListResponse:com.example.userstorageservice.model.UserListResponse,user:com.example.userstorageservice.model.User"
+    producer:
+      bootstrap-servers: kafka:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.type.mapping: "userListRequest:com.example.userstorageservice.model.UserListRequest,userListResponse:com.example.userstorageservice.model.UserListResponse,user:com.example.userstorageservice.model.User" 
