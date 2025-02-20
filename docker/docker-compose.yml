@@ -57,7 +57,8 @@ services:
 
   user-api-service:
     build:
-      context: ../services/user-api-service
+      context: ../services
+      dockerfile: user-api-service/Dockerfile
     ports:
       - "8081:8081"
     depends_on:
@@ -69,7 +70,8 @@ services:
 
   user-storage-service:
     build:
-      context: ../services/user-storage-service
+      context: ../services
+      dockerfile: user-storage-service/Dockerfile
     ports:
       - "8082:8082"
     depends_on:

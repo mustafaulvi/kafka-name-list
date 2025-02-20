@@ -2,16 +2,15 @@ server:
   port: 8081
 
 spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+  
   application:
     name: user-api-service
     
   kafka:
-    producer:
-      bootstrap-servers: kafka:9092
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      properties:
-        spring.json.type.mapping: "userListRequest:com.example.userapiservice.model.UserListRequest,userListResponse:com.example.userapiservice.model.UserListResponse,user:com.example.userapiservice.model.User"
     consumer:
       bootstrap-servers: kafka:9092
       group-id: user-api-group
@@ -19,5 +18,13 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: "*"
-        spring.json.type.mapping: "userListRequest:com.example.userapiservice.model.UserListRequest,userListResponse:com.example.userapiservice.model.UserListResponse,user:com.example.userapiservice.model.User" 
+        spring.json.trusted.packages: "com.example.shared.model"
+        spring.json.type.mapping: "userListRequest:com.example.shared.model.UserListRequest,userListResponse:com.example.shared.model.UserListResponse,user:com.example.shared.model.User"
+    producer:
+      bootstrap-servers: kafka:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.type.mapping: "userListRequest:com.example.shared.model.UserListRequest,userListResponse:com.example.shared.model.UserListResponse,user:com.example.shared.model.User"
+    listener:
+      missing-topics-fatal: false

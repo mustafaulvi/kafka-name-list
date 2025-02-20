@@ -18,6 +18,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         
   kafka:
     consumer:
@@ -27,11 +28,13 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: "*"
-        spring.json.type.mapping: "userListRequest:com.example.userstorageservice.model.UserListRequest,userListResponse:com.example.userstorageservice.model.UserListResponse,user:com.example.userstorageservice.model.User"
+        spring.json.trusted.packages: "com.example.shared.model"
+        spring.json.type.mapping: "userListRequest:com.example.shared.model.UserListRequest,userListResponse:com.example.shared.model.UserListResponse,user:com.example.shared.model.User"
     producer:
       bootstrap-servers: kafka:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
-        spring.json.type.mapping: "userListRequest:com.example.userstorageservice.model.UserListRequest,userListResponse:com.example.userstorageservice.model.UserListResponse,user:com.example.userstorageservice.model.User" 
+        spring.json.type.mapping: "userListRequest:com.example.shared.model.UserListRequest,userListResponse:com.example.shared.model.UserListResponse,user:com.example.shared.model.User"
+    listener:
+      missing-topics-fatal: false 

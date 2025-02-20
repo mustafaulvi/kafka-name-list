@@ -1,6 +1,6 @@
 package com.example.userstorageservice.service;
 
-import com.example.userstorageservice.model.User;
+import com.example.shared.model.User;
 import com.example.userstorageservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,15 +16,15 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public User saveUser(User user) {
+    public User save(User user) {
         return userRepository.save(user);
     }
 
-    public List<User> getAllUsers() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(Long id) {
+    public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
 } 
